@@ -1,25 +1,28 @@
 const express = require('express')
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const productRoute = require('./routes/product.route.js')
+// const Product = require("./models/product.model.js")
 const app = express()
 
+//middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
+//router routes
+app.use("/api/products", productRoute)
 
 
-// setTimeout(
-
-//     ,
-//      3000
-// )
 app.get('/', (req, res) => {
-    res.send('Hello from Node API Server uptaded')
+    res.send('Hello from Node API Server')
 })
 
-mongoose.connect("mongodb+srv://alainnoelisoa:4heuGkW3tAEun9fp@cluster0.ucbcegt.mongodb.net/NODE-API?retryWrites=true&w=majority&appName=Cluster0")
-.then(()=>{
-    console.log('Connected to MongoDB')
-    app.listen(3000,()=>{
-        console.log("server running on port 3000")
+mongoose.connect("mongodb://localhost:27017/Node_API")
+    .then(() => {
+        console.log('Connected to MongoDB')
+        app.listen(3000, () => {
+            console.log("server running on port 3000")
+        })
     })
-})
-.catch(()=>{
-    console.log('Connection failed')
-})
+    .catch(() => {
+        console.log('Connection failed')
+    })
